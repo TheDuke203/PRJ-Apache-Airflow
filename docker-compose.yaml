@@ -86,6 +86,14 @@ x-airflow-common:
       condition: service_healthy
 
 services:
+  airflow-python:
+    <<: *airflow-common
+    profiles:
+      - debug
+    environment:
+      <<: *airflow-common-env
+    user: "50000:0"
+    entrypoint: [ "/bin/bash", "-c" ]
   postgres:
     image: postgres:13
     environment:
@@ -169,6 +177,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   airflow-triggerer:
     <<: *airflow-common
