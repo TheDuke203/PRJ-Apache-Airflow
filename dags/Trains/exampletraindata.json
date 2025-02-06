@@ -1,0 +1,106 @@
+{
+  "location": {
+    "name": "Cambridge North",
+    "crs": "CMB",
+    "tiploc": "CAMBNTH",
+    "country": "gb",
+    "system": "nr"
+  },
+  "filter": null,
+  "services": [
+    {
+      "locationDetail": {
+          "realtimeActivated": true,
+          "tiploc": "ALEXNDP",
+          "crs": "AAP",
+          "description": "Alexandra Palace",
+          "gbttBookedArrival": "0003",
+          "gbttBookedArrivalNextDay": true,
+          "gbttBookedDeparture": "0003",
+          "gbttBookedDepartureNextDay": true,
+          "origin": [
+              {
+                  "tiploc": "KNGX",
+                  "description": "London Kings Cross",
+                  "workingTime": "235200",
+                  "publicTime": "2352"
+              }
+          ],
+          "destination": [
+              {
+                  "tiploc": "CAMBDGE",
+                  "description": "Cambridge",
+                  "workingTime": "011500",
+                  "publicTime": "0115"
+              }
+          ],
+          "isCall": true,
+          "isPublicCall": true,
+          "realtimeArrival": "0002",
+          "realtimeArrivalActual": true,
+          "realtimeArrivalNextDay": true,
+          "realtimeDeparture": "0003",
+          "realtimeDepartureActual": true,
+          "realtimeDepartureNextDay": true,
+          "platform": "4",
+          "platformConfirmed": true,
+          "platformChanged": false,
+          "displayAs": "CALL"
+      },
+      "serviceUid": "X95454",
+      "runDate": "2025-01-30",
+      "trainIdentity": "1C74",
+      "runningIdentity": "1C74",
+      "atocCode": "GN",
+      "atocName": "Great Northern",
+      "serviceType": "train",
+      "isPassenger": true
+  },
+  {
+      "locationDetail": {
+          "realtimeActivated": true,
+          "tiploc": "ASHWELC",
+          "crs": "AWM",
+          "description": "Ashwell & Morden",
+          "gbttBookedArrival": "2358",
+          "gbttBookedDeparture": "2358",
+          "origin": [
+              {
+                  "tiploc": "CAMBDGE",
+                  "description": "Cambridge",
+                  "workingTime": "233300",
+                  "publicTime": "2333"
+              }
+          ],
+          "destination": [
+              {
+                  "tiploc": "KNGX",
+                  "description": "London Kings Cross",
+                  "workingTime": "005800",
+                  "publicTime": "0058"
+              }
+          ],
+          "isCall": true,
+          "isPublicCall": true,
+          "realtimeArrival": "0000",
+          "realtimeArrivalActual": true,
+          "realtimeArrivalNextDay": true,
+          "realtimeDeparture": "0000",
+          "realtimeDepartureActual": true,
+          "realtimeDepartureNextDay": true,
+          "platform": "1",
+          "platformConfirmed": true,
+          "platformChanged": false,
+          "displayAs": "CALL"
+      },
+      "serviceUid": "W23614",
+      "runDate": "2025-01-31",
+      "trainIdentity": "2C77",
+      "runningIdentity": "2C77",
+      "atocCode": "GN",
+      "atocName": "Great Northern",
+      "serviceType": "train",
+      "isPassenger": true
+  }
+  ]
+}

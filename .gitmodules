@@ -1,3 +1,0 @@
-[submodule "PRJ-Train-Database"]
-	path = dags/PRJ-Train-Database
-	url = https://github.com/oslohes123/PRJ-Train-Database
