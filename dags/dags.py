@@ -1,15 +1,11 @@
 # my_dag.py
 from airflow.decorators import task, dag
 from datetime import datetime
-import sys
-import os
-
-# Add parent directory to sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"PRJ-Train-Database")))
 
 
 from DatabaseFunctions.setup import setup_database
 from Trains.TrainGather import train_gather
+
 
 
 @dag(description="Setting up the database")

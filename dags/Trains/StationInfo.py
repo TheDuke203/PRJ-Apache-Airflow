@@ -11,7 +11,7 @@ def get_station_info():
     stations_info = {}
 
     # Read CSV file containing station information
-    csv_file = csv.reader(open(os.path.join(dag_dir, "Trains/stations.csv"), "r"))
+    csv_file = csv.reader(open(os.path.join(dag_dir, "Trains", "data", "stations.csv"), "r"))
     next(csv_file, None)
     for row in csv_file:
         stations_info.update(
@@ -26,7 +26,7 @@ def tiploc_crs():
     
     tiploc_crs = {}
     
-    csv_file = csv.reader(open(os.path.join(dag_dir, "Trains/cif_tiplocs.csv"), "r"))
+    csv_file = csv.reader(open(os.path.join(dag_dir, "Trains", "data", "cif_tiplocs.csv"), "r"))
     next(csv_file, None)
     for row in csv_file:
         tiploc_crs.update(
@@ -39,7 +39,7 @@ def tiploc_crs():
 def name_crs():
     tiploc_crs = {}
     
-    csv_file = csv.reader(open(os.path.join(dag_dir, "Trains/cif_tiplocs.csv"), "r"))
+    csv_file = csv.reader(open(os.path.join(dag_dir, "Trains", "data", "cif_tiplocs.csv"), "r"))
     next(csv_file, None)
     for row in csv_file:
         if len(row[0]) > 0:

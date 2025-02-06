@@ -49,7 +49,7 @@ interest_stations = [
 Trains_dir = os.path.dirname(os.path.abspath(__file__))
 
 
-load_dotenv(os.path.join(Trains_dir,".trainEnv"))
+load_dotenv(os.path.join(Trains_dir,"data", ".trainEnv"))
 
 USERNAME = os.getenv("USER")
 PASSWORD = os.getenv("PASS")

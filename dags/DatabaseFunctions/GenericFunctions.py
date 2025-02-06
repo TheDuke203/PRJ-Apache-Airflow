@@ -1,11 +1,11 @@
 from configparser import ConfigParser
 import os
 
-dag_dir = os.path.dirname(os.path.abspath(os.path.join(__file__, "..")))
+db_dir = os.path.join(os.path.dirname(__file__), "database.ini")
 
-filename = os.path.join(dag_dir, "database.ini")
+db_ini = os.path.abspath(db_dir)
 
-def config(filename=filename, section="postgresql"):
+def config(filename=db_ini, section="postgresql"):
     parser = ConfigParser()
     parser.read(filename)
 

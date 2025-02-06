@@ -4,12 +4,6 @@ import psycopg2
 from airflow.decorators import task
 from DatabaseFunctions.GenericFunctions import config
 
-import sys
-import os
-
-# Add parent directory to sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 
 from Trains.TrainParser import TrainInfo
 
