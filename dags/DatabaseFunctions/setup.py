@@ -7,10 +7,7 @@ weather_table="""
 CREATE TABLE IF NOT EXISTS weather (
     weather_id SERIAL PRIMARY KEY,
     temperature DECIMAL(5, 2),   -- e.g., 23.45
-    rain_chance DECIMAL(5, 2),   -- Percentage (0-100)
-    wind_speed DECIMAL(5, 2),    -- In km/h or mph
-    snow_chance DECIMAL(5, 2),   -- Percentage (0-100)
-    thunder_chance DECIMAL(5, 2), -- Percentage (0-100)
+    weather integer,
     date_time timestamp,
     location text
 );

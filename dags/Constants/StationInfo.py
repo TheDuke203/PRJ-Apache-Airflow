@@ -1,24 +1,59 @@
 import csv
 import hashlib
-from airflow.decorators import task
-
 import os
 dag_dir = os.path.dirname(os.path.abspath(os.path.join(__file__, "..")))
 
 
-def get_station_info():
+# List of station names to gather info for used only for searching.
+interest_stations = [
+    "AAP",
+    "AWM",
+    "BFR",
+    "BTN",
+    "CBG",
+    "CMB",
+    "CTK",
+    "ELY",
+    "FPK",
+    "FXN",
+    "GTW",
+    "HIT",
+    "HRH",
+    "HUN",
+    "KGX",
+    "KLN",
+    "LET",
+    "LTP",
+    "PBO",
+    "PBR",
+    "RDH",
+    "RYS",
+    "STH",
+    "STP",
+    "SVG",
+    "WBC",
+    "WGC",
+    "ZFD",
+]
 
+"""
+name, hash,(latitude, longitude)
+"""
+def get_station_info():
+    """
+    Returns:
+    name, hash,(latitude, longitude)
+    """
     stations_info = {}
 
     # Read CSV file containing station information
-    csv_file = csv.reader(open(os.path.join(dag_dir, "Trains", "data", "stations.csv"), "r"))
+    csv_file = csv.reader(open(os.path.join(dag_dir, "Constants", "data", "stations.csv"), "r"))
     next(csv_file, None)
     for row in csv_file:
         stations_info.update(
             {row[3]: [row[0], hash_coordinates(row[1], row[2]), (row[1], row[2])]}
         )
 
-    # stations info format: station name = crs, (latitude, longitude)
     return stations_info
 
 
@@ -26,7 +61,7 @@ def tiploc_crs():
     
     tiploc_crs = {}
     
-    csv_file = csv.reader(open(os.path.join(dag_dir, "Trains", "data", "cif_tiplocs.csv"), "r"))
+    csv_file = csv.reader(open(os.path.join(dag_dir, "Constants", "data", "cif_tiplocs.csv"), "r"))
     next(csv_file, None)
     for row in csv_file:
         tiploc_crs.update(
@@ -39,7 +74,7 @@ def tiploc_crs():
 def name_crs():
     tiploc_crs = {}
     
-    csv_file = csv.reader(open(os.path.join(dag_dir, "Trains", "data", "cif_tiplocs.csv"), "r"))
+    csv_file = csv.reader(open(os.path.join(dag_dir, "Constants", "data", "cif_tiplocs.csv"), "r"))
     next(csv_file, None)
     for row in csv_file:
         if len(row[0]) > 0:

@@ -1,55 +1,17 @@
-import os
 from datetime import datetime, timedelta
 
-from Trains.StationInfo import get_station_info, tiploc_crs, name_crs
+from Constants.StationInfo import get_station_info, tiploc_crs, name_crs, interest_stations
 from dotenv import load_dotenv
 import requests
 from Trains.TrainParser import parse_train_data
-from airflow.decorators import task
-import sys
 import os
-
-# Add parent directory to sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from DatabaseFunctions.TrainDataInput import push_data
 
-# List of station names to gather info for used only for searching.
-interest_stations = [
-    "AAP",
-    "AWM",
-    "BFR",
-    "BTN",
-    "CBG",
-    "CMB",
-    "CTK",
-    "ELY",
-    "FPK",
-    "FXN",
-    "GTW",
-    "HIT",
-    "HRH",
-    "HUN",
-    "KGX",
-    "KLN",
-    "LET",
-    "LTP",
-    "PBO",
-    "PBR",
-    "RDH",
-    "RYS",
-    "STH",
-    "STP",
-    "SVG",
-    "WBC",
-    "WGC",
-    "ZFD",
-]
-
-Trains_dir = os.path.dirname(os.path.abspath(__file__))
+dag_dir = os.path.dirname(os.path.abspath(os.path.join(__file__, "..")))
 
 
-load_dotenv(os.path.join(Trains_dir,"data", ".trainEnv"))
+load_dotenv(os.path.join(dag_dir, "Constants", "data", ".trainEnv"))
 
 USERNAME = os.getenv("USER")
 PASSWORD = os.getenv("PASS")
