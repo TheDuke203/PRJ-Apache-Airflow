@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./dags/PRJ-Train-Database"
+    ]
+}
