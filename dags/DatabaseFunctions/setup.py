@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS weather (
     weather_id SERIAL PRIMARY KEY,
     temperature DECIMAL(5, 2),   -- e.g., 23.45
     weather integer,
+    wind_speed integer,
     date_time timestamp,
     location text
 );

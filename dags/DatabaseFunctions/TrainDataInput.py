@@ -1,7 +1,6 @@
 from datetime import datetime
 from typing import List
 import psycopg2
-from airflow.decorators import task
 from DatabaseFunctions.GenericFunctions import config
 
 
