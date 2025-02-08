@@ -17,12 +17,12 @@ load_dotenv(os.path.join(weather_dir, ".env"))
 api_key = os.getenv("API_KEY")
 
 class WeatherInfo:
-    def __init__(self, temperature, weather, wind_speed, date, location):
+    def __init__(self, temperature, weather, wind_speed, date, station):
         self.temperature = temperature
         self.weather = weather
         self.wind_speed = wind_speed
         self.date = date
-        self.location = location
+        self.station = station
         
 
 

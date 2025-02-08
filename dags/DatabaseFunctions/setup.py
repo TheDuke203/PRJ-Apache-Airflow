@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS weather (
     weather integer,
     wind_speed integer,
     date_time timestamp,
-    location text
+    station integer
 );
 """
 

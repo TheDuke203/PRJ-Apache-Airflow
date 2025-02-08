@@ -9,7 +9,7 @@ INSERT INTO weather(
     weather,
     wind_speed,
     date_time,
-    location
+    station
 )
 VALUES (%s, %s, %s, %s, %s);
 """
@@ -31,7 +31,7 @@ def push_weather_data(weather_datas):
                     weather.weather,
                     weather.wind_speed,
                     datetime.strftime(weather.date, "%Y-%m-%d %H:%M:%S"),
-                    weather.location,
+                    weather.station,
                 ),
             )
 
