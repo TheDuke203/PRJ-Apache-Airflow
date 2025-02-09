@@ -8,10 +8,10 @@ import os
 
 from DatabaseFunctions.TrainDataInput import push_data
 
-dag_dir = os.path.dirname(os.path.abspath(os.path.join(__file__, "..")))
+train_dir = os.path.dirname(__file__)
 
 
-load_dotenv(os.path.join(dag_dir, "Constants", "data", ".trainEnv"))
+load_dotenv(os.path.join(train_dir, ".env"))
 
 USERNAME = os.getenv("USER")
 PASSWORD = os.getenv("PASS")

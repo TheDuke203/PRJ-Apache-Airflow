@@ -16,7 +16,7 @@ def setup():
         setup_database()
     main_task()
 
-@dag(description="Adding train info", schedule_interval="30 2 * * *", start_date=datetime(2021,1,1), catchup=False)
+@dag(description="Adding train info", schedule_interval="30 2 * * *", start_date=datetime(2025,2,6), catchup=False)
 def update_train_info():
     
     @task(task_id="gather_train_info")
@@ -24,8 +24,8 @@ def update_train_info():
         train_gather()
     
     main_task()
-    
-@dag(description="Adding weather info", schedule_interval="10 2 */5 * *", start_date=datetime(2021,1,1), catchup=False)
+
+@dag(description="Update weather info", schedule_interval="10 2 */5 * *", start_date=datetime(2025,2,8), catchup=False)
 def update_weather_info():
     
     @task(task_id="gather_weather_info")
@@ -34,21 +34,16 @@ def update_weather_info():
     
     main_task()
 
-@dag(description="", schedule_interval="10 2 */5 * *", start_date=datetime(2021,1,1), catchup=False)
-def update_weather_info():
+@dag(description="combine trains to weather data", schedule_interval="20 2 */5 * *", start_date=datetime(2025,2,8), catchup=False)
+def train_weather_combine():
     
-    @task(task_id="gather_weather_info")
-    def main_task():
-        gather_weather_info()
-        
     @task
-    def train_weather_update():
+    def main_task():
         update_train_weather()
-    
     main_task()
-    train_weather_update()
 
 
 setup()
 update_train_info()
 update_weather_info()
+train_weather_combine()
