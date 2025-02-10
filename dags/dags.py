@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 from DatabaseFunctions.setup import setup_database
-from DatabaseFunctions.WeatherTrainRun import update_train_weather
+from DatabaseFunctions.TrainWeatherCombine import combine_train_weather
 from Trains.TrainGather import train_gather
 from Weather.WeatherGather import gather_weather_info
 
@@ -34,12 +34,13 @@ def update_weather_info():
     
     main_task()
 
-@dag(description="combine trains to weather data", schedule_interval="20 2 */5 * *", start_date=datetime(2025,2,8), catchup=False)
+@dag(description="combine trains to weather data", schedule_interval="20 2 * * *", start_date=datetime(2025,2,8), catchup=False)
 def train_weather_combine():
     
     @task
     def main_task():
-        update_train_weather()
+        row_count = combine_train_weather()
+        print("Rows added: " + str(row_count))
     main_task()
 
 

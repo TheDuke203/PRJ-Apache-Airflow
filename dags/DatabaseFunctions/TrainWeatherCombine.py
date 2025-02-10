@@ -22,20 +22,19 @@ WHERE NOT EXISTS (
 )
 """
 
-def update_train_weather():
+def combine_train_weather():
     connection = None
     params = config()
     print("Connecting to postgresql database ...")
-    try:
-        connection = psycopg2.connect(**params, database="ashley_train_prj_db")
-        connection.autocommit = True
-        cur = connection.cursor()
-        
-        cur.execute(sql_command)
 
-        cur.close()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    finally:
-        connection.close() if connection is not None else None
-        print("Database connection terminated")
+    connection = psycopg2.connect(**params, database="ashley_train_prj_db")
+    connection.autocommit = True
+    cur = connection.cursor()
+    
+    cur.execute(sql_command)
+    row_count = cur.rowcount
+    cur.close()
+    
+    
+    print("Database connection terminated")
+    return row_count
