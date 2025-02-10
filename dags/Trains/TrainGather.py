@@ -1,4 +1,9 @@
 from datetime import datetime, timedelta
+# Useful for testing
+# import sys
+# import os
+
+# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from Constants.StationInfo import get_station_info, tiploc_crs, name_crs, interest_stations
 from dotenv import load_dotenv
@@ -36,7 +41,8 @@ def train_gather():
     # Get the data for each station that we are interested in.
     for full_url in full_urls:
         contents = requests.get(full_url, auth=(USERNAME, PASSWORD)).json()
-        stations_data.append(parse_train_data(contents, stations_info, tiploc_to_crs, name_to_crs))
+        if contents.get('services'):
+            stations_data.append(parse_train_data(contents, stations_info, tiploc_to_crs, name_to_crs))
 
 
     push_data(stations_data)
