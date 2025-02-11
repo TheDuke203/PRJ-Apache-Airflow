@@ -34,7 +34,7 @@ def update_weather_info():
     
     main_task()
 
-@dag(description="combine trains to weather data", schedule_interval="20 2 * * *", start_date=datetime(2025,2,8), catchup=False)
+@dag(description="combine trains to weather data", schedule_interval="50 2 * * *", start_date=datetime(2025,2,8), catchup=False)
 def train_weather_combine():
     
     @task
