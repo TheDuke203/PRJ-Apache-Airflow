@@ -44,5 +44,5 @@ def train_gather():
         if contents.get('services'):
             stations_data.append(parse_train_data(contents, stations_info, tiploc_to_crs, name_to_crs))
 
-
+    print("Adding: " + str(len(stations_data) * len(stations_data[0])) +  " rows into train")
     push_data(stations_data)
