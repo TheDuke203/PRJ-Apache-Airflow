@@ -25,7 +25,7 @@ def update_train_info():
     
     main_task()
 
-@dag(description="Update weather info", schedule_interval="10 2 */5 * *", start_date=datetime(2025,2,8), catchup=False)
+@dag(description="Update weather info", schedule_interval="05 18 */4 * *", start_date=datetime(2025,2,13))
 def update_weather_info():
     
     @task(task_id="gather_weather_info")

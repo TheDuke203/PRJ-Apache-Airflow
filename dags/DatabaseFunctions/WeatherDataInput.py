@@ -11,7 +11,8 @@ INSERT INTO weather(
     date_time,
     station
 )
-VALUES (%s, %s, %s, %s, %s);
+VALUES (%s, %s, %s, %s, %s)
+ON CONFLICT DO NOTHING;
 """
 
 def push_weather_data(weather_datas):
