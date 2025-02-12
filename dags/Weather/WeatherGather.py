@@ -46,7 +46,7 @@ def gather_weather_info():
             date = datetime.strptime(item.get('dt_txt'), "%Y-%m-%d %H:%M:%S")
             weather_data_info.append(WeatherInfo(temperature, weather, wind_speed, date, location))
     
-    push_weather_data(weather_data_info)
+    print("Unique rows added to weather: " + str(push_weather_data(weather_data_info)))
 
 
     

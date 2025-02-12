@@ -19,26 +19,26 @@ def push_weather_data(weather_datas):
     connection = None
     params = config()
     print("Connecting to postgresql database ...")
-    try:
-        connection = psycopg2.connect(**params, database="ashley_train_prj_db")
-        connection.autocommit = True
-        cur = connection.cursor()
-        
-        for weather in weather_datas:
-            cur.execute(
-                sql,
-                (
-                    weather.temperature,
-                    weather.weather,
-                    weather.wind_speed,
-                    datetime.strftime(weather.date, "%Y-%m-%d %H:%M:%S"),
-                    weather.station,
-                ),
-            )
+    
+    connection = psycopg2.connect(**params, database="ashley_train_prj_db")
+    connection.autocommit = True
+    cur = connection.cursor()
+    
+    for weather in weather_datas:
+        cur.execute(
+            sql,
+            (
+                weather.temperature,
+                weather.weather,
+                weather.wind_speed,
+                datetime.strftime(weather.date, "%Y-%m-%d %H:%M:%S"),
+                weather.station,
+            ),
+        )
 
-        cur.close()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    finally:
-        connection.close() if connection is not None else None
-        print("Database connection terminated")
+    row_count = cur.rowcount
+    
+    cur.close()
+    print("Database connection terminated")
+    return row_count
+    
