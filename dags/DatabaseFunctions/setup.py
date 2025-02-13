@@ -54,13 +54,13 @@ CREATE TABLE IF NOT EXISTS TrainEvent (
 
 results_table = """
 CREATE TABLE IF NOT EXISTS results (
-    id SERIAL PRIMARY KEY,
+    results_id SERIAL PRIMARY KEY,
     test_date date,
     test_rows_num integer,
     r_squared_regression decimal,
     true_ratio_classification decimal,
     accuracy_classification decimal,
-    UNIQUE(test_date, test_rows, r_squared_regression, true_ratio_classification, accuracy_classification)
+    UNIQUE(test_date, test_rows_num, r_squared_regression, true_ratio_classification, accuracy_classification)
 );
 """
 
