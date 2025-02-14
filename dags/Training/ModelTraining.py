@@ -7,7 +7,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 import lightgbm as lgb
 from sklearn.metrics import accuracy_score
-
+from DatabaseFunctions.ModelResults import push_model_results
 
 '''
 Example of data coming from server
@@ -49,7 +49,10 @@ def train_model_from_database():
     rows = str(len(X)) 
     accuracy, true_ratio = test_train_cancelled_classification(X,y_cancelled)
     r_squared = test_train_delay_regression(X, y_delay)
-    
+    print("Regresssion: R_squared result is: "+ str(r_squared))
+    print("Classification: Accuracy is: " + str(accuracy))
+    print("Classification: True ratio is: " + str(true_ratio))
+    push_model_results(rows, accuracy, r_squared, true_ratio)
     
     
 def test_train_cancelled_classification(X,y):

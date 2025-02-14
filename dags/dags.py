@@ -7,6 +7,7 @@ from DatabaseFunctions.setup import setup_database
 from DatabaseFunctions.TrainWeatherCombine import combine_train_weather
 from Trains.TrainGather import train_gather
 from Weather.WeatherGather import gather_weather_info
+from Training.ModelTraining import train_model_from_database
 
 @dag(description="Setting up the database")
 def setup():
@@ -41,6 +42,14 @@ def train_weather_combine():
     def main_task():
         row_count = combine_train_weather()
         print("Rows added: " + str(row_count))
+    main_task()
+
+@dag(description="update the results of testing the model", schedule_interval="* 3 * * *", start_date=datetime(2025,2,8), catchup=False)
+def model_results_update():
+    
+    @task
+    def main_task():
+        train_model_from_database()
     main_task()
 
 
