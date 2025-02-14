@@ -1,4 +1,4 @@
-from logging import config
+from DatabaseFunctions.GenericFunctions import config
 
 import psycopg2
 from datetime import datetime

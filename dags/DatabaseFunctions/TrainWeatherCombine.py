@@ -1,3 +1,8 @@
+import os
+import sys
+# Add parent directory to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import psycopg2
 from DatabaseFunctions.GenericFunctions import config
 
@@ -49,3 +54,5 @@ def combine_train_weather():
     
     print("Database connection terminated")
     return row_count
+
+combine_train_weather()

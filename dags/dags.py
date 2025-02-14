@@ -44,7 +44,7 @@ def train_weather_combine():
         print("Rows added: " + str(row_count))
     main_task()
 
-@dag(description="update the results of testing the model", schedule_interval="* 3 * * *", start_date=datetime(2025,2,8), catchup=False)
+@dag(description="update the results of testing the model", schedule="* 3 * * *", start_date=datetime(2025,2,8), catchup=False)
 def model_results_update():
     
     @task
@@ -57,3 +57,4 @@ setup()
 update_train_info()
 update_weather_info()
 train_weather_combine()
+model_results_update()

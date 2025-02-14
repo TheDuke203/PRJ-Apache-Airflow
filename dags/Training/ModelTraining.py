@@ -44,7 +44,8 @@ def parse_input_data(inputData):
     
 
 def train_model_from_database():
-    y_cancelled, y_delay, X = parse_input_data(get_combined_data())
+    input_data = get_combined_data()
+    y_cancelled, y_delay, X = parse_input_data(input_data)
     print("Building on: " + str(len(X)) + " rows of data")
     rows = str(len(X)) 
     accuracy, true_ratio = test_train_cancelled_classification(X,y_cancelled)
@@ -52,9 +53,10 @@ def train_model_from_database():
     print("Regresssion: R_squared result is: "+ str(r_squared))
     print("Classification: Accuracy is: " + str(accuracy))
     print("Classification: True ratio is: " + str(true_ratio))
-    push_model_results(rows, accuracy, r_squared, true_ratio)
-    
-    
+    push_model_results(rows, accuracy, r_squared, true_ratio)   
+
+
+
 def test_train_cancelled_classification(X,y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
     clf = lgb.LGBMClassifier(random_state=0, is_unbalance=True)
@@ -91,4 +93,3 @@ def r_square_scratch(true, predicted):
     tss = sum([(i-mean_true)**2 for i in true])
     # calculate final r2 value
     return 1-(mss/tss)
-
