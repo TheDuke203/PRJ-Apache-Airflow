@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 import lightgbm as lgb
 from sklearn.metrics import accuracy_score
 from DatabaseFunctions.ModelResults import push_model_results
+from datetime import datetime
 
 '''
 Example of data coming from server
@@ -50,11 +51,11 @@ def train_model_from_database():
     print("Building on: " + rows + " rows of data")
     
     clf_model, accuracy, true_ratio = test_train_cancelled_classification(X,y_cancelled)
-    clf_model.booster_.save_model('models/lgb_classifier.txt')
+    clf_model.booster_.save_model(f'models/lgb_classifier_${datetime.now().strftime("%Y-%m-%d")}.txt')
     
     reg_model, r_squared = test_train_delay_regression(X, y_delay)
     
-    reg_model.booster_.save_model('models/lgb_regressor.txt')
+    reg_model.booster_.save_model(f'models/lgb_regressor_${datetime.now().strftime("%Y-%m-%d")}.txt')
     
 
     print("Regresssion: R_squared result is: "+ str(r_squared))
