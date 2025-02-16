@@ -52,7 +52,7 @@ def parse_train_data(json_data, stations_info, tiploc_crs, name_crs):
                             location_detail['displayAs'] == "CANCELLED_PASS" else False
         departure_station = stations_info[location_detail['crs']][1]
 
-        crs_from_tiploc = tiploc_crs[location_detail['destination'][0]['tiploc']]
+        crs_from_tiploc = tiploc_crs.get(location_detail['destination'][0]['tiploc'])
         crs_from_name = name_crs.get(location_detail['destination'][0]['description'].lower())
 
         name_test = stations_info.get(crs_from_name)
