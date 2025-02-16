@@ -4,6 +4,7 @@ from datetime import datetime
 
 
 from DatabaseFunctions.setup import setup_database
+from DatabaseFunctions.GenericFunctions import config
 from DatabaseFunctions.TrainWeatherCombine import combine_train_weather
 from Trains.TrainGather import train_gather
 from Weather.WeatherGather import gather_weather_info
@@ -54,11 +55,11 @@ def model_results_update():
 
 @dag(description="Backup database", schedule="30 4 * * *", start_date=datetime(2025,2,16))
 def run_backup_script():
-    
-    @task.bash(cwd="/opt/airflow/backup")
+    params = config()
+    @task.bash(cwd="/opt/airflow/backup", env={"PGPASSWORD": params.get("password"), "SERVHOST": params.get("host"), \
+        "SERVUSER": params.get("user")} )
     def main_task():
         return "DatabaseFunctions/backup.sh"
-        
     main_task()
 
 setup()
