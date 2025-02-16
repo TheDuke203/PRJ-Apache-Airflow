@@ -46,14 +46,22 @@ def parse_input_data(inputData):
 def train_model_from_database():
     input_data = get_combined_data()
     y_cancelled, y_delay, X = parse_input_data(input_data)
-    print("Building on: " + str(len(X)) + " rows of data")
     rows = str(len(X)) 
-    accuracy, true_ratio = test_train_cancelled_classification(X,y_cancelled)
-    r_squared = test_train_delay_regression(X, y_delay)
+    print("Building on: " + rows + " rows of data")
+    
+    clf_model, accuracy, true_ratio = test_train_cancelled_classification(X,y_cancelled)
+    clf_model.booster_.save_model('models/lgb_classifier.txt')
+    
+    reg_model, r_squared = test_train_delay_regression(X, y_delay)
+    
+    reg_model.booster_.save_model('models/lgb_regressor.txt')
+    
+
     print("Regresssion: R_squared result is: "+ str(r_squared))
     print("Classification: Accuracy is: " + str(accuracy))
     print("Classification: True ratio is: " + str(true_ratio))
-    push_model_results(rows, accuracy, r_squared, true_ratio)   
+    
+    push_model_results(rows, accuracy, r_squared.item(), true_ratio)   
 
 
 
@@ -63,7 +71,8 @@ def test_train_cancelled_classification(X,y):
     clf.fit(X_train, y_train)
     
     y_pred=clf.predict(X_test)    
-    return (accuracy_score(y_test, y_pred) ,test_false_positives(y_test, y_pred))
+    return (clf, accuracy_score(y_test, y_pred) ,test_false_positives(y_test, y_pred))
+
 
 def test_false_positives(y_test, y_pred):
     total = np.count_nonzero(y_test)
@@ -76,11 +85,11 @@ def test_false_positives(y_test, y_pred):
 
 def test_train_delay_regression(X,y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
-    clf = lgb.LGBMRegressor()
-    clf.fit(X_train, y_train)
+    model = lgb.LGBMRegressor()
+    model.fit(X_train, y_train)
     
-    y_pred=clf.predict(X_test)
-    return r_square_scratch(y_test, y_pred)
+    y_pred=model.predict(X_test)
+    return (model, r_square_scratch(y_test, y_pred))
     
 def r_square_scratch(true, predicted):
     # substract each predicted value from each true
