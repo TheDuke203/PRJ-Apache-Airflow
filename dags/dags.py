@@ -55,7 +55,7 @@ def model_results_update():
 @dag(description="Backup database", schedule="30 4 * * *", start_date=datetime(2025,2,16))
 def run_backup_script():
     
-    @task.bash
+    @task.bash(cwd="/opt/airflow/backup")
     def main_task():
         return "DatabaseFunctions/backup.sh"
         
