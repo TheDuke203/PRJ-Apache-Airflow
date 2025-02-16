@@ -52,9 +52,18 @@ def model_results_update():
         train_model_from_database()
     main_task()
 
+@dag(description="Backup database", schedule="30 4 * * *", start_date=datetime(2025,2,16))
+def run_backup_script():
+    
+    @task.bash
+    def main_task():
+        return "DatabaseFunctions/backup.sh"
+        
+    main_task()
 
 setup()
 update_train_info()
 update_weather_info()
 train_weather_combine()
 model_results_update()
+run_backup_script()
