@@ -56,7 +56,7 @@ def train_model_from_database():
     
     reg_model, r_squared = test_train_delay_regression(X, y_delay)
     
-    pickle.dump(reg_model, open(Path(f'models/lgb_regressor_{datetime.now().strftime("%Y-%m-%d")}.txt')), 'wb')
+    pickle.dump(reg_model, open(Path(f'models/lgb_regressor_{datetime.now().strftime("%Y-%m-%d")}.txt'), 'wb'))
 
     print("Regresssion: R_squared result is: "+ str(r_squared))
     print("Classification: Accuracy is: " + str(accuracy))
