@@ -10,7 +10,7 @@ from Trains.TrainGather import train_gather
 from Weather.WeatherGather import gather_weather_info
 from Training.ModelTraining import train_model_from_database
 
-@dag(description="Setting up the database")
+@dag(description="Setting up the database", catchup=False)
 def setup():
     
     @task(task_id="setup_datbase")
@@ -27,7 +27,7 @@ def update_train_info():
     
     main_task()
 
-@dag(description="Update weather info", schedule_interval="05 18 */4 * *", start_date=datetime(2025,2,13))
+@dag(description="Update weather info", schedule_interval="05 18 */4 * *", start_date=datetime(2025,2,13), catchup=False)
 def update_weather_info():
     
     @task(task_id="gather_weather_info")
@@ -36,7 +36,7 @@ def update_weather_info():
     
     main_task()
 
-@dag(description="combine trains to weather data", schedule_interval="50 2 * * *", start_date=datetime(2025,2,8))
+@dag(description="combine trains to weather data", schedule_interval="50 2 * * *", start_date=datetime(2025,2,8), catchup=False)
 def train_weather_combine():
     
     @task
@@ -45,7 +45,7 @@ def train_weather_combine():
         print("Rows added: " + str(row_count))
     main_task()
 
-@dag(description="update the results of testing the model", schedule="50 3 * * *", start_date=datetime(2025,2,8))
+@dag(description="update the results of testing the model", schedule="50 3 * * *", start_date=datetime(2025,2,8), catchup=False)
 def model_results_update():
     
     @task
@@ -53,7 +53,7 @@ def model_results_update():
         train_model_from_database()
     main_task()
 
-@dag(description="Backup database", schedule="30 4 * * *", start_date=datetime(2025,2,16))
+@dag(description="Backup database", schedule="30 4 * * *", start_date=datetime(2025,2,16), catchup=False)
 def run_backup_script():
     params = config()
     @task.bash(cwd="/opt/airflow/backup", env={"PGPASSWORD": params.get("password"), "SERVHOST": params.get("host"), \

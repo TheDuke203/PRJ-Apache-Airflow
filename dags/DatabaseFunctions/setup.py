@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS train (
     destination_station integer,
     departure_time time,
     train_date date
+    UNIQUE(train_delay, train_cancelled, departure_station, destination_station, departure_time, train_date)
 );
 """
 
