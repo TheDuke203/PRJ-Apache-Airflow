@@ -38,8 +38,8 @@ def parse_input_data(inputData):
         temperature = data[11]
         weather = data[12]
         wind_speed = data[13]
-        X.append([departure_station,destination_station, day_of_week, day_of_year, seconds_of_day,
-                  temperature, weather, wind_speed])
+        X.append([departure_station, destination_station, day_of_week, day_of_year, seconds_of_day,
+                temperature, weather, wind_speed])
         
     return (y_cancelled, y_delay, np.array(X))  
     
