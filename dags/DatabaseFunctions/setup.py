@@ -36,23 +36,6 @@ CREATE TABLE IF NOT EXISTS train (
 );
 """
 
-event_table = """
-CREATE TABLE IF NOT EXISTS event (
-    event_id SERIAL PRIMARY KEY,
-    event_type text,
-    event_date date,
-    locations text[]
-);
-"""
-
-train_event_table = """
-CREATE TABLE IF NOT EXISTS TrainEvent (
-    trainEvent_id SERIAL PRIMARY KEY,
-    train_id integer references train(train_id),
-    event_id integer references event(event_id)
-);
-"""
-
 results_table = """
 CREATE TABLE IF NOT EXISTS results (
     results_id SERIAL PRIMARY KEY,
@@ -68,8 +51,6 @@ CREATE TABLE IF NOT EXISTS results (
 tables_to_setup = [
     weather_table,
     train_table,
-    event_table,
-    train_event_table,
     train_weather_table,
     results_table,
 ]
