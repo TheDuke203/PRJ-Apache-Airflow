@@ -15,36 +15,36 @@ INSERT INTO train(
     departure_time, 
     train_date
 )
-VALUES (%s, %s, %s, %s, %s, %s);
+VALUES (%s, %s, %s, %s, %s, %s)
+ON CONFLICT DO NOTHING;
 """
 
 def push_data(stations_data):
     connection = None
     params = config()
     print("Connecting to postgresql database ...")
-    try:
-        connection = psycopg2.connect(**params, database="ashley_train_prj_db")
-        connection.autocommit = True
-        cur = connection.cursor()
 
-        trains_data: List[TrainInfo]
-        for trains_data in stations_data:
-            for trains in trains_data:
-                cur.execute(
-                    sql,
-                    (
-                        trains.delay,
-                        trains.cancelled,
-                        trains.departure_station,
-                        trains.destination_station,
-                        datetime.strftime(trains.booked_departure, "%H:%M"),
-                        datetime.strftime(trains.date, "%Y-%m-%d"),
-                    ),
-                )
+    connection = psycopg2.connect(**params, database="ashley_train_prj_db")
+    connection.autocommit = True
+    cur = connection.cursor()
 
-        cur.close()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    finally:
-        connection.close() if connection is not None else None
-        print("Database connection terminated")
+    trains_data: List[TrainInfo]
+    for trains_data in stations_data:
+        for trains in trains_data:
+            cur.execute(
+                sql,
+                (
+                    trains.delay,
+                    trains.cancelled,
+                    trains.departure_station,
+                    trains.destination_station,
+                    datetime.strftime(trains.booked_departure, "%H:%M"),
+                    datetime.strftime(trains.date, "%Y-%m-%d"),
+                ),
+            )
+
+    row_count = cur.rowcount
+    
+    cur.close()
+    print("Database connection terminated")
+    return row_count

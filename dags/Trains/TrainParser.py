@@ -10,7 +10,7 @@ class TrainInfo:
     # Data must be numeric to be compatible with machine learning
     # Except Date which is only used for linking purposes.
     def __init__(self, booked_departure, cancelled, delay,
-                 departure_station, destination_station, date):
+                departure_station, destination_station, date):
         self.booked_departure = booked_departure
         self.delay = delay
         self.cancelled = cancelled
@@ -18,6 +18,8 @@ class TrainInfo:
         self.destination_station = destination_station
         self.date = date
 
+skip_service = []
+skip_name = 0
 
 def parse_train_data(json_data, stations_info, tiploc_crs, name_crs):
     """Parse Train Data from API
@@ -27,9 +29,10 @@ def parse_train_data(json_data, stations_info, tiploc_crs, name_crs):
         stations_info (Dictionary): Stations info from constants
     """
     trains_info = []
-
+    global skip_service, skip_name
     for service in json_data['services']:
         if service['serviceType'] != "train":
+            skip_service.append(service['serviceType'])
             continue
 
         location_detail = service['locationDetail']
@@ -59,14 +62,16 @@ def parse_train_data(json_data, stations_info, tiploc_crs, name_crs):
         tiploc_test = stations_info.get(crs_from_tiploc)
 
         if name_test == None and tiploc_test == None:
+            skip_name += 1
             continue
 
         destination_station = tiploc_test[1] if tiploc_test != None else name_test[1]
 
         trains_info.append(TrainInfo(booked_departure=booked_departure,
-                                     cancelled=cancelled, delay=delay, departure_station=departure_station,
-                                     destination_station=destination_station, date=date))
-
+                                    cancelled=cancelled, delay=delay, departure_station=departure_station,
+                                    destination_station=destination_station, date=date))
+    print(f"Skipped for service type being different: {str(len(skip_service))}")
+    print(f"SKipped for the name for crs or tiploc not being found: {str(skip_name)}" )
     return trains_info
 
 

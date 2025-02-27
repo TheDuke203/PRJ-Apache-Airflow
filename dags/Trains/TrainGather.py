@@ -18,8 +18,8 @@ train_dir = os.path.dirname(__file__)
 
 load_dotenv(os.path.join(train_dir, ".env"))
 
-USERNAME = os.getenv("USER")
-PASSWORD = os.getenv("PASS")
+USERNAME = os.getenv("USER_TRAIN")
+PASSWORD = os.getenv("PASS_TRAIN")
 
 base_url = "https://api.rtt.io/api/v1/json/search/"
 
@@ -44,5 +44,7 @@ def train_gather():
         if contents.get('services'):
             stations_data.append(parse_train_data(contents, stations_info, tiploc_to_crs, name_to_crs))
 
-    print("Adding: " + str(len(stations_data) * len(stations_data[0])) +  " rows into train")
-    push_data(stations_data)
+    row_count = push_data(stations_data)
+    print(f"Total added rows: {row_count}")
+
+train_gather()
