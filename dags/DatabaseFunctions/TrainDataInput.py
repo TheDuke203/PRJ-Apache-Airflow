@@ -27,7 +27,7 @@ def push_data(stations_data):
     connection = psycopg2.connect(**params, database="ashley_train_prj_db")
     connection.autocommit = True
     cur = connection.cursor()
-
+    rowCount = 0
     trains_data: List[TrainInfo]
     for trains_data in stations_data:
         for trains in trains_data:
@@ -42,9 +42,8 @@ def push_data(stations_data):
                     datetime.strftime(trains.date, "%Y-%m-%d"),
                 ),
             )
-
-    row_count = cur.rowcount
+            rowCount += cur.rowcount
     
     cur.close()
     print("Database connection terminated")
-    return row_count
+    return rowCount

@@ -23,7 +23,7 @@ def push_weather_data(weather_datas):
     connection = psycopg2.connect(**params, database="ashley_train_prj_db")
     connection.autocommit = True
     cur = connection.cursor()
-    
+    rowCount = 0
     for weather in weather_datas:
         cur.execute(
             sql,
@@ -35,10 +35,9 @@ def push_weather_data(weather_datas):
                 weather.station,
             ),
         )
-
-    row_count = cur.rowcount
+        rowCount += cur.rowcount
     
     cur.close()
     print("Database connection terminated")
-    return row_count
+    return rowCount
     
