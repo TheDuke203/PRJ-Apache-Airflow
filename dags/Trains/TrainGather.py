@@ -46,5 +46,3 @@ def train_gather():
 
     row_count = push_data(stations_data)
     print(f"Total added rows: {row_count}")
-
-train_gather()
