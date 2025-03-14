@@ -35,7 +35,7 @@ def gather_weather_info():
     
     for station in interest_stations:
         (lat, lon) = stations_info[station][2] 
-        location = stations_info[station][1]
+        stationNum = stations_info[station][1]
         url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={api_key}"
         
         list_items = requests.get(url).json().get('list')
@@ -44,7 +44,7 @@ def gather_weather_info():
             weather = item.get('weather')[0].get('id')
             wind_speed = item.get('wind').get('speed')
             date = datetime.strptime(item.get('dt_txt'), "%Y-%m-%d %H:%M:%S")
-            weather_data_info.append(WeatherInfo(temperature, weather, wind_speed, date, location))
+            weather_data_info.append(WeatherInfo(temperature, weather, wind_speed, date, stationNum))
     
     print("Unique rows added to weather: " + str(push_weather_data(weather_data_info)))
 
