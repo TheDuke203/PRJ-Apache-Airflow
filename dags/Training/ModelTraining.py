@@ -42,7 +42,6 @@ def parse_input_data(inputData):
                 temperature, weather, wind_speed])
         
     return (y_cancelled, y_delay, np.array(X))  
-    
 
 def train_model_from_database():
     input_data = get_combined_data()
@@ -62,8 +61,6 @@ def train_model_from_database():
     
     push_model_results(rows, accuracy, r_squared.item(), true_ratio)   
 
-
-
 def test_train_cancelled_classification(X,y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
     clf = lgb.LGBMClassifier(random_state=0, is_unbalance=True)
@@ -71,7 +68,6 @@ def test_train_cancelled_classification(X,y):
     
     y_pred=clf.predict(X_test)    
     return (clf, accuracy_score(y_test, y_pred) ,test_false_positives(y_test, y_pred))
-
 
 def test_false_positives(y_test, y_pred):
     total = np.count_nonzero(y_test)
@@ -89,7 +85,7 @@ def test_train_delay_regression(X,y):
     
     y_pred=model.predict(X_test)
     return (model, r_square_scratch(y_test, y_pred))
-    
+
 def r_square_scratch(true, predicted):
     # substract each predicted value from each true
     residuals = [a - b for a, b in zip(true, predicted)]
