@@ -23,8 +23,8 @@ INSERT INTO TrainWeather (train_id, weather_id)
 SELECT train_id, weather_id
 FROM (
     SELECT t.train_id, 
-           w.weather_id,
-           ROW_NUMBER() OVER (PARTITION BY t.train_id ORDER BY (t.train_date + t.departure_time) - w.date_time) as rn
+        w.weather_id,
+        ROW_NUMBER() OVER (PARTITION BY t.train_id ORDER BY (t.train_date + t.departure_time) - w.date_time) as rn
     FROM Train t
     JOIN Weather w ON w.station = t.departure_station 
         AND w.date_time <= (t.train_date + t.departure_time)
