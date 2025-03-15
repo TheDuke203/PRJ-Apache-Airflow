@@ -43,7 +43,7 @@ def parse_input_data(inputData):
         
     return (y_cancelled, y_delay, np.array(X))  
 
-def train_model_from_database():
+def test_test_model_from_database():
     input_data = get_combined_data()
     y_cancelled, y_delay, X = parse_input_data(input_data)
     rows = str(len(X)) 
