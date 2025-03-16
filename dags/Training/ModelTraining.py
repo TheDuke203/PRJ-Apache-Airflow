@@ -6,7 +6,7 @@ from DatabaseFunctions.GatherTrainingData import get_combined_data
 import numpy as np
 from sklearn.model_selection import train_test_split
 import lightgbm as lgb
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, recall_score
 from DatabaseFunctions.ModelResults import push_model_results
 from datetime import datetime
 from pathlib import Path
@@ -67,16 +67,7 @@ def test_train_cancelled_classification(X,y):
     clf.fit(X_train, y_train)
     
     y_pred=clf.predict(X_test)    
-    return (clf, accuracy_score(y_test, y_pred) ,test_false_positives(y_test, y_pred))
-
-def test_false_positives(y_test, y_pred):
-    total = np.count_nonzero(y_test)
-    correct = 0
-    for i in range(len(y_test)):
-        if y_test[i] == 1 and y_pred[i] == 1:
-            correct += 1
-    
-    return str(correct / total)
+    return (clf, accuracy_score(y_test, y_pred), recall_score(y_test, y_pred))
 
 def test_train_delay_regression(X,y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
