@@ -6,7 +6,7 @@ from DatabaseFunctions.GatherTrainingData import get_combined_data
 import numpy as np
 from sklearn.model_selection import train_test_split
 import lightgbm as lgb
-from sklearn.metrics import accuracy_score, recall_score
+from sklearn.metrics import accuracy_score, recall_score, r2_score
 from DatabaseFunctions.ModelResults import push_model_results
 from datetime import datetime
 from pathlib import Path
@@ -59,7 +59,7 @@ def train_test_model_from_database():
     print("Classification: Accuracy is: " + str(accuracy))
     print("Classification: True ratio is: " + str(true_ratio))
     
-    push_model_results(rows, accuracy, r_squared.item(), true_ratio)   
+    push_model_results(rows, accuracy, r_squared, true_ratio)   
 
 def test_train_cancelled_classification(X,y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
@@ -75,16 +75,4 @@ def test_train_delay_regression(X,y):
     model.fit(X_train, y_train)
     
     y_pred=model.predict(X_test)
-    return (model, r_square_scratch(y_test, y_pred))
-
-def r_square_scratch(true, predicted):
-    # substract each predicted value from each true
-    residuals = [a - b for a, b in zip(true, predicted)]
-    # calculate the sum of squared differences between predicted and true
-    mss = sum([i**2 for i in residuals])
-    # calculate the mean true value
-    mean_true = (sum(true))/len(true)
-    # calculate the sum of squared differences of each true value minus the mean true value
-    tss = sum([(i-mean_true)**2 for i in true])
-    # calculate final r2 value
-    return 1-(mss/tss)
+    return (model, r2_score(y_test, y_pred))
