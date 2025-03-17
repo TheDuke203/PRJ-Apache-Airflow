@@ -34,9 +34,6 @@ def push_model_results(rows, accuracy, r_squared, true_ratio):
             accuracy
         ),
     )
-
-    row_count = cur.rowcount
     
     cur.close()
     print("Database connection terminated")
-    return row_count
