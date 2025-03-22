@@ -44,7 +44,6 @@ CREATE TABLE IF NOT EXISTS results (
     r_squared_regression decimal,
     true_ratio_classification decimal,
     accuracy_classification decimal,
-    UNIQUE(test_date, test_rows_num, r_squared_regression, true_ratio_classification, accuracy_classification)
 );
 """
 

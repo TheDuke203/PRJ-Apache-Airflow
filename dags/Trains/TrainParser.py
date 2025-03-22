@@ -39,10 +39,16 @@ def parse_train_data(json_data, stations_info, tiploc_crs, name_crs):
 
         # Example: 2025-01-22
         date = datetime.strptime(service['runDate'], "%Y-%m-%d")
-
-        booked_departure = datetime.strptime(location_detail['gbttBookedDeparture'], "%H%M")
-        actual_departure = datetime.strptime(location_detail['realtimeDeparture'], "%H%M")
-
+        
+        booked_dpt = location_detail.get('gbttBookedDeparture')
+        realtime_dept = location_detail.get('realtimeDeparture')
+        
+        if not booked_dpt or not realtime_dept:
+            continue
+        
+        booked_departure = datetime.strptime(location_detail.get('gbttBookedDeparture'), "%H%M")
+        actual_departure = datetime.strptime(location_detail.get('realtimeDeparture'), "%H%M")
+        
         actual_next_day = location_detail.get('realtimeDepartureNextDay')
         booked_next_day = location_detail.get('gbttBookedDepartureNextDay')
 
