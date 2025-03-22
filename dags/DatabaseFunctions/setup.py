@@ -17,9 +17,10 @@ CREATE TABLE IF NOT EXISTS weather (
 
 train_weather_table = """
 CREATE TABLE IF NOT EXISTS TrainWeather (
-trainWeather_id SERIAL PRIMARY KEY,
-train_id integer references train(train_id),
-weather_id integer references weather(weather_id)
+    trainWeather_id SERIAL PRIMARY KEY,
+    train_id integer references train(train_id),
+    weather_id integer references weather(weather_id),
+    UNIQUE(train_id, weather_id)
 )
 """
 
@@ -31,7 +32,7 @@ CREATE TABLE IF NOT EXISTS train (
     departure_station integer,
     destination_station integer,
     departure_time time,
-    train_date date
+    train_date date,
     UNIQUE(train_delay, train_cancelled, departure_station, destination_station, departure_time, train_date)
 );
 """
