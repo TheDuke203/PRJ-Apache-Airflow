@@ -15,18 +15,26 @@ Enviroment Variables see below
 # Enviroment variables
 This server relies upon various enviorment variables to be set in order to make queries to api's etc.
 Create a .env file at the root containing 
+```
 AIRFLOW_UID: User id that container should run a
+```
 
 Inside dags/DatabaseFunctions
 create database.ini using this format
+```
 [postgresql]
-host=host address of postgress server
-user=postgres username
-password=postgres password
+host=host_address
+user=postgres_username
+password=postgres_password
+```
 
 In dags/Trains create a .env using [RTT API ](https://api.rtt.io/)
+```
 USER_TRAIN=RTT api username
 PASS_TRAIN=RTT api password
+```
 
 In dags/Weathe create a .env for the [openWeatherApi](https://openweathermap.org/api)
+```
 API_KEY=API key for openweather api
+```
