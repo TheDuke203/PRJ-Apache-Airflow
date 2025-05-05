@@ -8,7 +8,7 @@ from DatabaseFunctions.GenericFunctions import config
 from DatabaseFunctions.TrainWeatherCombine import combine_train_weather
 from Trains.TrainGather import train_gather
 from Weather.WeatherGather import gather_weather_info
-from Training.ModelTraining import train_test_model_from_database
+from Training.TrainModels import run_general_models
 
 @dag(description="Setting up the database", catchup=False)
 def setup():
@@ -50,7 +50,7 @@ def model_results_update():
     
     @task
     def main_task():
-        train_test_model_from_database()
+        run_general_models()
     main_task()
 
 @dag(description="Backup database", schedule="30 4 * * *", start_date=datetime(2025,2,16), catchup=False)
