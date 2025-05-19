@@ -10,6 +10,7 @@ import numpy as np
 from DatabaseFunctions.GatherTrainingData import get_combined_data
 from Training.GenericModel import Model
 from Training.ModelLightGBM import ModelLightGBM
+from Training.ModelAutoLM import ModelAutoLM
 
 class TrainModels():
     
@@ -40,7 +41,7 @@ class TrainModels():
                 X.append([departure_station, destination_station, day_of_week, day_of_year, seconds_of_day,
                         temperature, weather, wind_speed])
         
-            return (y_cancelled, y_delay, np.array(X))  
+            return (y_cancelled, y_delay, np.array(X, dtype='f'))  
     
         y_cancelled, y_delay, X = parse_input_data(input_data)
         rows = str(len(X)) 
@@ -66,8 +67,11 @@ def run_general_models():
 
 def run_custom_models():
     # All the models to run are created here
-    lgbmModel = ModelLightGBM()
+    # lgbmModel = ModelLightGBM()
+    autoLearn = ModelAutoLM()
     
     # Pass in the models to run as part of our loop
-    generalModel = TrainModels([lgbmModel])
+    generalModel = TrainModels([autoLearn])
     generalModel.models_loop()
+
+run_custom_models()
