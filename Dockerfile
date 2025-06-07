@@ -8,5 +8,6 @@ RUN apt-get -y install libgomp1
 USER airflow
 
 COPY ./requirements.txt requirements.txt
+COPY dags/ /opt/airflow/dags/
 
 RUN pip install -r requirements.txt

@@ -10,7 +10,6 @@ import numpy as np
 from DatabaseFunctions.GatherTrainingData import get_combined_data
 from Training.GenericModel import Model
 from Training.ModelLightGBM import ModelLightGBM
-from Training.ModelAutoLM import ModelAutoLM
 
 class TrainModels():
     
@@ -65,13 +64,12 @@ def run_general_models():
     generalModel = TrainModels([lgbmModel])
     generalModel.models_loop()
 
-def run_custom_models():
+# def run_custom_models():
     # All the models to run are created here
     # lgbmModel = ModelLightGBM()
-    autoLearn = ModelAutoLM()
     
     # Pass in the models to run as part of our loop
-    generalModel = TrainModels([autoLearn])
-    generalModel.models_loop()
+    # generalModel = TrainModels()
+    # generalModel.models_loop()
 
-run_custom_models()
+# run_custom_models()
