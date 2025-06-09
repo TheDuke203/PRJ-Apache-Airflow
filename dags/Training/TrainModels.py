@@ -6,13 +6,19 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 
 from typing import List
+import pandas as pd
 import numpy as np
 from DatabaseFunctions.GatherTrainingData import get_combined_data
 from Training.GenericModel import Model
 from Training.ModelLightGBM import ModelLightGBM
+from Constants.StationInfo import get_stations_map
+
+stations_map = get_stations_map()
 
 class TrainModels():
     
+
+
     def gather(self):
         input_data = get_combined_data()
     
@@ -28,19 +34,23 @@ class TrainModels():
             y_delay = np.array([data[1] for data in inputData])
             
             X = []
+            
             for data in inputData:
-                departure_station = data[3]
-                destination_station = data[4]
+                departure_station = stations_map[data[3]]
+                destination_station = stations_map[data[4]]
                 day_of_week = data[6].weekday()
                 day_of_year = data[6].timetuple().tm_yday
                 seconds_of_day = (data[5].hour * 60   + data[5].minute) * 60
-                temperature = data[11]
+                temperature = float(data[11])
                 weather = data[12]
                 wind_speed = data[13]
                 X.append([departure_station, destination_station, day_of_week, day_of_year, seconds_of_day,
                         temperature, weather, wind_speed])
+                
+            data = pd.DataFrame(data=X, columns=["departure_station", "destination_station", "day_of_week",
+                                                "day_of_year", "seconds_of_day", "temperature", "weather", "wind_speed" ])
         
-            return (y_cancelled, y_delay, np.array(X, dtype='f'))  
+            return (y_cancelled, y_delay, data)
     
         y_cancelled, y_delay, X = parse_input_data(input_data)
         rows = str(len(X)) 
@@ -63,13 +73,5 @@ def run_general_models():
     # Pass in the models to run as part of our loop
     generalModel = TrainModels([lgbmModel])
     generalModel.models_loop()
-
-# def run_custom_models():
-    # All the models to run are created here
-    # lgbmModel = ModelLightGBM()
     
-    # Pass in the models to run as part of our loop
-    # generalModel = TrainModels()
-    # generalModel.models_loop()
-
-# run_custom_models()
+# run_general_models()

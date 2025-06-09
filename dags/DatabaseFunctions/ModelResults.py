@@ -7,15 +7,16 @@ sql = """
 INSERT INTO results(
     test_date,
     test_rows_num,
+    model,
     r_squared_regression,
     true_ratio_classification,
-    accuracy_classification 
+    accuracy_classification
 )
-VALUES (%s, %s, %s, %s, %s)
+VALUES (%s, %s ,%s, %s, %s, %s)
 ON CONFLICT DO NOTHING;
 """
 
-def push_model_results(rows, accuracy, r_squared, true_ratio):
+def push_model_results(model ,rows, accuracy, r_squared, true_ratio):
     connection = None
     params = config()
     print("Connecting to postgresql database ...")
@@ -29,10 +30,11 @@ def push_model_results(rows, accuracy, r_squared, true_ratio):
         (
             datetime.today().strftime("%Y-%m-%d"),
             rows,
+            model,
             r_squared,
             true_ratio,
             accuracy
-        ),
+        )
     )
     
     cur.close()

@@ -89,3 +89,18 @@ def hash_coordinates(lat, long):
     coords = f"{float(lat):.3f},{float(long):.3f}"
     hash = int(hashlib.md5(coords.encode()).hexdigest(), 16)
     return hash % (10**8)
+
+def get_stations_map():
+    stations_info = []
+
+    # Read CSV file containing station information
+    csv_file = csv.reader(open(os.path.join(dag_dir, "Constants", "data", "stations.csv"), "r"))
+    next(csv_file, None)
+    for row in csv_file:
+        stations_info.append(hash_coordinates(row[1], row[2]))
+    
+    stations_ids = sorted(set(stations_info))
+    station_map = {code: i for i, code in enumerate(stations_ids)}
+
+
+    return station_map
