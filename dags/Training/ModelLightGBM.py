@@ -47,7 +47,7 @@ class ModelLightGBM(Model):
             "objective": "binary",
             "metric": "auc",
             "is_unbalance": True,
-            "verbosity": -1,
+            "verbosity": 2,
         }
         
         model = lgb.train(params, train_data, num_boost_round=1000)
@@ -65,7 +65,7 @@ class ModelLightGBM(Model):
         params = {
             "objective": "regression",
             "metric": "rmse",
-            "verbosity": -1,
+            "verbosity": 2,
         }
 
         categorical_features = [0, 1, 6]
