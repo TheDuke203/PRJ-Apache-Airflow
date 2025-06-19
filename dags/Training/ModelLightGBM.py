@@ -27,7 +27,9 @@ class ModelLightGBM(Model):
         clf_model, accuracy, true_ratio = ModelLightGBM.test_train_cancelled_classification(X,y_cancelled)
         clf_model.save_model(Path(f'models/lgb_classifier_{datetime.now().strftime("%Y-%m-%d")}.txt'))
         
-        reg_model, r_squared = ModelLightGBM.test_train_delay_regression(X, y_delay)
+        # Divisor found on trial and error.
+        num_iterations = rows // 112
+        reg_model, r_squared = ModelLightGBM.test_train_delay_regression(X, y_delay, num_iterations)
         reg_model.save_model(Path(f'models/lgb_regressor_{datetime.now().strftime("%Y-%m-%d")}.txt'))
 
         print("Regresssion: R_squared result is: "+ str(r_squared))
@@ -58,7 +60,7 @@ class ModelLightGBM(Model):
 
         return (model, accScore , recallScore)
 
-    def test_train_delay_regression(X, y):
+    def test_train_delay_regression(X, y, num_iterations):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 1)
 
         
@@ -71,6 +73,6 @@ class ModelLightGBM(Model):
         categorical_features = [0, 1, 6]
         train_data = lgb.Dataset(X_train, label=y_train, categorical_feature=categorical_features)
         
-        model = lgb.train(params, train_data, num_boost_round=7000)
+        model = lgb.train(params, train_data, num_boost_round=num_iterations)
         y_pred=model.predict(X_test)
         return (model, r2_score(y_test, y_pred))
