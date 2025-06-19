@@ -71,6 +71,6 @@ class ModelLightGBM(Model):
         categorical_features = [0, 1, 6]
         train_data = lgb.Dataset(X_train, label=y_train, categorical_feature=categorical_features)
         
-        model = lgb.train(params, train_data, num_boost_round=1000)
+        model = lgb.train(params, train_data, num_boost_round=7000)
         y_pred=model.predict(X_test)
         return (model, r2_score(y_test, y_pred))
