@@ -28,7 +28,7 @@ class ModelLightGBM(Model):
         clf_model.save_model(Path(f'models/lgb_classifier_{datetime.now().strftime("%Y-%m-%d")}.txt'))
         
         # Divisor found on trial and error.
-        num_iterations = rows // 112
+        num_iterations = int(rows) // 112
         reg_model, r_squared = ModelLightGBM.test_train_delay_regression(X, y_delay, num_iterations)
         reg_model.save_model(Path(f'models/lgb_regressor_{datetime.now().strftime("%Y-%m-%d")}.txt'))
 
