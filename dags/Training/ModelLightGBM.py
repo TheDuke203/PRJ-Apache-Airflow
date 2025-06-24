@@ -24,11 +24,10 @@ class ModelLightGBM(Model):
     
     def run(self, rows, y_cancelled, y_delay, X):
         print("Starting run")
-        clf_model, accuracy, true_ratio = ModelLightGBM.test_train_cancelled_classification(X,y_cancelled)
+        num_iterations = int(rows)
+        clf_model, accuracy, true_ratio = ModelLightGBM.test_train_cancelled_classification(X,y_cancelled, num_iterations)
         clf_model.save_model(Path(f'models/lgb_classifier_{datetime.now().strftime("%Y-%m-%d")}.txt'))
-        
-        # Divisor found on trial and error.
-        num_iterations = int(rows) // 112
+
         reg_model, r_squared = ModelLightGBM.test_train_delay_regression(X, y_delay, num_iterations)
         reg_model.save_model(Path(f'models/lgb_regressor_{datetime.now().strftime("%Y-%m-%d")}.txt'))
 
@@ -39,7 +38,7 @@ class ModelLightGBM(Model):
         push_model_results("lgb", rows, accuracy, r_squared, true_ratio)   
 
 
-    def test_train_cancelled_classification(X, y):
+    def test_train_cancelled_classification(X, y, num_iterations):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 1)
 
         categorical_features = [0, 1, 6]
@@ -49,10 +48,10 @@ class ModelLightGBM(Model):
             "objective": "binary",
             "metric": "auc",
             "is_unbalance": True,
-            "verbosity": 2,
+            "verbosity": -1,
         }
         
-        model = lgb.train(params, train_data, num_boost_round=1000)
+        model = lgb.train(params, train_data, num_boost_round=num_iterations // 750)
         y_pred=model.predict(X_test)
         y_pred_labels = (y_pred > 0.5).astype(int)
         accScore = accuracy_score(y_test, y_pred_labels)
@@ -67,12 +66,12 @@ class ModelLightGBM(Model):
         params = {
             "objective": "regression",
             "metric": "rmse",
-            "verbosity": 2,
+            "verbosity": -1,
         }
 
         categorical_features = [0, 1, 6]
         train_data = lgb.Dataset(X_train, label=y_train, categorical_feature=categorical_features)
         
-        model = lgb.train(params, train_data, num_boost_round=num_iterations)
+        model = lgb.train(params, train_data, num_boost_round=num_iterations // 112)
         y_pred=model.predict(X_test)
         return (model, r2_score(y_test, y_pred))
