@@ -9,6 +9,7 @@ from DatabaseFunctions.TrainWeatherCombine import combine_train_weather
 from Trains.TrainGather import train_gather
 from Weather.WeatherGather import gather_weather_info
 from Training.TrainModels import run_general_models
+from DatabaseFunctions.BackupCleanup import BackupCleanup
 
 @dag(description="Setting up the database", catchup=False)
 def setup():
@@ -51,7 +52,18 @@ def model_results_update():
     @task
     def main_task():
         run_general_models()
+    
+    @task
+    def clean_up_regressor():
+        BackupCleanup("/opt/airflow/models", "lgb_regressor_", ".txt")
+    
+    @task
+    def clean_up_classifier():
+        BackupCleanup("/opt/airflow/models", "lgb_classifier_", ".txt")
+    
     main_task()
+    clean_up_classifier()
+    clean_up_regressor()
 
 @dag(description="Backup database", schedule="30 4 * * *", start_date=datetime(2025,2,16), catchup=False)
 def run_backup_script():
@@ -59,8 +71,12 @@ def run_backup_script():
     @task.bash(cwd="/opt/airflow/backup", env={"PGPASSWORD": params.get("password"), "SERVHOST": params.get("host"), \
         "SERVUSER": params.get("user")} )
     def main_task():
-        return "DatabaseFunctions/backup.sh"
+        return  "DatabaseFunctions/backup.sh"
+    @task
+    def cleanup():
+        BackupCleanup("/opt/airflow/backup", "prj-database-")
     main_task()
+    cleanup()
 
 setup()
 update_train_info()
