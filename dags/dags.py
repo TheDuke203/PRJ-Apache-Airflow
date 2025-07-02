@@ -44,6 +44,7 @@ def train_weather_combine():
     def main_task():
         row_count = combine_train_weather()
         print("Rows added: " + str(row_count))
+    
     main_task()
 
 @dag(description="update the results of testing the model", schedule="50 3 * * *", start_date=datetime(2025,2,8), catchup=False)
@@ -60,10 +61,12 @@ def model_results_update():
     @task
     def clean_up_classifier():
         BackupCleanup("/opt/airflow/models", "lgb_classifier_", ".txt")
+        
+    main = main_task()
+    reg_cleanup = clean_up_classifier()
+    clf_cleanup = clean_up_regressor()
     
-    main_task()
-    clean_up_classifier()
-    clean_up_regressor()
+    main >> [reg_cleanup, clf_cleanup]
 
 @dag(description="Backup database", schedule="30 4 * * *", start_date=datetime(2025,2,16), catchup=False)
 def run_backup_script():
@@ -75,8 +78,13 @@ def run_backup_script():
     @task
     def cleanup():
         BackupCleanup("/opt/airflow/backup", "prj-database-")
-    main_task()
-    cleanup()
+        
+    
+    main = main_task()
+    clean = cleanup()
+    
+    main >> clean
+    
 
 setup()
 update_train_info()
