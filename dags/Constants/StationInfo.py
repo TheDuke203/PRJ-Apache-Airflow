@@ -3,39 +3,6 @@ import hashlib
 import os
 dag_dir = os.path.dirname(os.path.abspath(os.path.join(__file__, "..")))
 
-
-# List of station names to gather info for used only for searching.
-interest_stations = [
-    "AAP",
-    "AWM",
-    "BFR",
-    "BTN",
-    "CBG",
-    "CMB",
-    "CTK",
-    "ELY",
-    "FPK",
-    "FXN",
-    "GTW",
-    "HIT",
-    "HRH",
-    "HUN",
-    "KGX",
-    "KLN",
-    "LET",
-    "LTP",
-    "PBO",
-    "PBR",
-    "RDH",
-    "RYS",
-    "STH",
-    "STP",
-    "SVG",
-    "WBC",
-    "WGC",
-    "ZFD",
-]
-
 """
 name, hash,(latitude, longitude)
 """

@@ -54,5 +54,3 @@ def combine_train_weather():
     
     print("Database connection terminated")
     return row_count
-
-combine_train_weather()

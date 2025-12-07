@@ -4,7 +4,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import requests
-from Constants.StationInfo import interest_stations, get_station_info
+from Constants.StationInfo import get_station_info
 from dotenv import load_dotenv
 from datetime import datetime
 
@@ -33,7 +33,7 @@ def gather_weather_info():
     
     weather_data_info = []
     
-    for station in interest_stations:
+    for station in stations_info.keys():
         (lat, lon) = stations_info[station][2] 
         stationNum = stations_info[station][1]
         url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={api_key}"

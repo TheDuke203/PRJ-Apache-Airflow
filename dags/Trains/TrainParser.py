@@ -1,9 +1,12 @@
 from datetime import datetime
 from datetime import timedelta
 
-from Constants.StationInfo import get_station_info
+from Constants.StationInfo import get_station_info, name_crs, tiploc_crs
 import json
 
+
+tiploc_to_crs = tiploc_crs()
+name_to_crs = name_crs()
 
 class TrainInfo:
     # Setting up class to contain info for input into train database
@@ -21,7 +24,7 @@ class TrainInfo:
 skip_service = []
 skip_name = 0
 
-def parse_train_data(json_data, stations_info, tiploc_crs, name_crs):
+def parse_train_data(json_data, stations_info):
     """Parse Train Data from API
 
     Args:
@@ -61,8 +64,8 @@ def parse_train_data(json_data, stations_info, tiploc_crs, name_crs):
                             location_detail['displayAs'] == "CANCELLED_PASS" else False
         departure_station = stations_info[location_detail['crs']][1]
 
-        crs_from_tiploc = tiploc_crs.get(location_detail['destination'][0]['tiploc'])
-        crs_from_name = name_crs.get(location_detail['destination'][0]['description'].lower())
+        crs_from_tiploc = tiploc_to_crs.get(location_detail['destination'][0]['tiploc'])
+        crs_from_name = name_to_crs.get(location_detail['destination'][0]['description'].lower())
 
         name_test = stations_info.get(crs_from_name)
         tiploc_test = stations_info.get(crs_from_tiploc)
