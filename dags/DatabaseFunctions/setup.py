@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS results (
     test_rows_num integer,
     r_squared_regression decimal,
     true_ratio_classification decimal,
-    accuracy_classification decimal,
+    accuracy_classification decimal
 );
 """
 
